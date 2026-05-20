@@ -63,8 +63,15 @@ public class Order {
         orderItem.setOrder(this);
     }
 
-    private void remove() {
-        this.user.getOrders().remove(this);
+    public void cancel() {
+        if(orderStatus == OrderStatus.DELIVERED) {
+            throw new IllegalStateException("이미 배송완료 된 상품은 취소가 불가능합니다.");
+        }
+        this.orderStatus = OrderStatus.CANCELLED;
+
+        for(OrderItem orderItem : orderItems) {
+            orderItem.cancel();
+        }
     }
 
     private void setTotalPrice(OrderItem orderItem) {

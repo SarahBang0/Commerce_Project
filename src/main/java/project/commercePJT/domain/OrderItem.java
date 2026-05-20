@@ -35,6 +35,7 @@ public class OrderItem {
         OrderItem orderItem = new OrderItem();
         orderItem.quantity = quantity;
         orderItem.price = item.getPrice();
+        orderItem.item = item;
         item.removeStock(quantity);
         return orderItem;
     }
@@ -42,11 +43,11 @@ public class OrderItem {
     //==변경 메서드==//
     public void setOrder(Order order) {
         this.order = order;
-        order.getOrderItems().add(this);
     }
 
 
-    private void remove() {
-        this.order.getOrderItems().remove(this);
+    //==재고 원복==//
+    public void cancel() {
+        getItem().addStock(quantity);
     }
 }

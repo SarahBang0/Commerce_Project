@@ -46,4 +46,11 @@ public class User {
         user.address = address;
         return user;
     }
+
+    //==수정 메서드==//
+    public void changeProfile(String name, Address address) {
+        this.name = name;
+        this.address = address;
+    }
+
 }

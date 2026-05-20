@@ -53,6 +53,7 @@ public class Item {
         this.category.getItems().remove(this);
     }
 
+    //==재고 관리 메서드==//
     public void removeStock(int quantity) {
         int restStock = stock_quantity - quantity;
         if(restStock < 0) {
