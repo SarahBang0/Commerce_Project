@@ -1,7 +1,9 @@
 package project.commercePJT.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -9,6 +11,7 @@ import java.util.List;
 
 @Entity(name = "USERS")
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
     @Id
@@ -24,11 +27,23 @@ public class User {
     private LocalDateTime joined_date;
 
     @Enumerated (EnumType.STRING)
-    private Level level;
+    private Level level = Level.BRONZE;
 
     @Embedded
     private Address address;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
+
+    //==생성 메서드==//
+    public static User createUser(String name, String email,String password, Address address) {
+        User user = new User();
+        user.name = name;
+        user.email = email;
+        user.password = password;
+        user.level = Level.BRONZE;
+        user.joined_date = LocalDateTime.now();
+        user.address = address;
+        return user;
+    }
 }
