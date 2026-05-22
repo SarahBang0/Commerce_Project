@@ -42,6 +42,14 @@ public class Item {
     }
 
     //==변경 메서드==//
+    public void changeItem(String name, int stock_quantity, long price, Category category) {
+        this.name = name;
+        this.stock_quantity = stock_quantity;
+        this.price = price;
+        this.category = category;
+    }
+
+
     private void setCategory(Category category) {
         this.category = category;
         if(category != null) {

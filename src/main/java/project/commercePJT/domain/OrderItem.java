@@ -45,9 +45,12 @@ public class OrderItem {
         this.order = order;
     }
 
-
     //==재고 원복==//
     public void cancel() {
         getItem().addStock(quantity);
+    }
+
+    public void updateOrderItem(int quantity) {
+        this.quantity = quantity;
     }
 }

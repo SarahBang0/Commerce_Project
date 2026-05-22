@@ -9,6 +9,8 @@ import project.commercePJT.domain.*;
 import project.commercePJT.domain.item.Category;
 import project.commercePJT.domain.item.Item;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -35,8 +37,9 @@ class OrderRepositoryTest {
         itemRepository.save(item);
         OrderItem orderItem1 = OrderItem.createOrderItem(3, item);
         OrderItem orderItem2 = OrderItem.createOrderItem(2, item);
+        List<OrderItem> orderItemList = List.of(orderItem1, orderItem2);
 
-        Order order = Order.createOrder(user, orderItem1, orderItem2);
+        Order order = Order.createOrder(user, orderItemList);
 
         //when
         orderRepository.save(order);
@@ -59,8 +62,9 @@ class OrderRepositoryTest {
         itemRepository.save(item);
         OrderItem orderItem1 = OrderItem.createOrderItem(3, item);
         OrderItem orderItem2 = OrderItem.createOrderItem(2, item);
+        List<OrderItem> orderItemList = List.of(orderItem1, orderItem2);
 
-        Order order = Order.createOrder(user, orderItem1, orderItem2);
+        Order order = Order.createOrder(user, orderItemList);
         orderRepository.save(order);
 
         //when

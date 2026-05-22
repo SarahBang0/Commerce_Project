@@ -31,6 +31,18 @@ public class UserDto {
         @Size(min = 5, message = "비밀번호는 5글자 이상이어야 합니다.")
         private String password;
 
+        @NotBlank(message = "주소는 필수 입력값입니다.")
+        private Address address;
+    }
+
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor
+    public static class UserUpdateRequestDto {
+        @NotBlank(message = "이름은 필수 입력값입니다.")
+        private String name;
+
+        @NotBlank(message = "주소는 필수 입력값입니다.")
         private Address address;
 
     }
