@@ -8,8 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import project.commercePJT.domain.item.Category;
 import project.commercePJT.domain.item.Item;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 @Transactional
 class ItemRepositoryTest {
@@ -30,7 +28,7 @@ class ItemRepositoryTest {
         //then
         Item findItem = itemRepository.findByName(item.getName()).get(0);
         Assertions.assertThat(findItem).isEqualTo(item);
-        Assertions.assertThat(itemRepository.findByCategory(category).get(0)).isEqualTo(findItem);
+        Assertions.assertThat(itemRepository.findByCategory(category.getId()).get(0)).isEqualTo(findItem);
     }
 
     private static Item getItem(Category category) {

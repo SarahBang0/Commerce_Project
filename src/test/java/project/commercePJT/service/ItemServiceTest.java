@@ -1,15 +1,15 @@
 package project.commercePJT.service;
 
 import jakarta.persistence.EntityManager;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import project.commercePJT.domain.item.Category;
 import project.commercePJT.dto.ItemDto;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static project.commercePJT.dto.CategoryDto.*;
+import static project.commercePJT.dto.ItemDto.*;
 
 @SpringBootTest
 @Transactional
@@ -22,47 +22,52 @@ class ItemServiceTest {
     @Test
     void 상품_등록_성공() {
         //given
-        Long categoryId = categoryService.createCategory(getCategory());
-        Category category = categoryService.findCategory(categoryId);
-        ItemDto itemDto = getItemDto(category);
+        CategoryRequestDto categoryRequestDto1 = getCategoryRequestDto("clothes");
+        Long categoryId = categoryService.createCategory(categoryRequestDto1);
+        CategoryResponseDto category = categoryService.findCategory(categoryId);
+
+        ItemRequestDto itemDto = getItemRequestDto(category);
 
         //when
         Long itemId = itemService.saveItem(itemDto);
 
         //then
-        ItemDto findItem = itemService.findItem(itemId);
+        ItemResponseDto findItem = itemService.findItem(itemId);
         assertThat(findItem.getName()).isEqualTo(itemDto.getName());
     }
 
     @Test
     void 상품_정보_수정_성공() {
         //given
-        Long categoryId = categoryService.createCategory(getCategory());
-        Category category = categoryService.findCategory(categoryId);
-        ItemDto itemDto = getItemDto(category);
+        CategoryRequestDto categoryRequestDto1 = getCategoryRequestDto("clothes");
+        Long categoryId1 = categoryService.createCategory(categoryRequestDto1);
+        CategoryResponseDto category1 = categoryService.findCategory(categoryId1);
+
+        ItemRequestDto itemDto = getItemRequestDto(category1);
         Long itemId = itemService.saveItem(itemDto);
 
         //when
-        Category newCategory = Category.createCategory("etc");
-        categoryService.createCategory(newCategory);
-        ItemDto newItemDto = new ItemDto("pants", 20, 5000L, newCategory.getId());
+        CategoryRequestDto categoryRequestDto2 = getCategoryRequestDto("etc");
+        Long categoryId2 = categoryService.createCategory(categoryRequestDto2);
+        CategoryResponseDto category2 = categoryService.findCategory(categoryId2);
+        ItemRequestDto newItemDto = new ItemRequestDto("pants", 20, 5000L, category2.getId());
         itemService.updateItem(itemId, newItemDto);
 
         em.flush();
         em.clear();
 
         //then
-        ItemDto findItem = itemService.findItem(itemId);
+        ItemResponseDto findItem = itemService.findItem(itemId);
         assertThat(findItem.getName()).isEqualTo("pants");
     }
 
-    private static ItemDto getItemDto(Category category) {
-        ItemDto itemDto = new ItemDto("t-shirts", 10, 10000L, category.getId());
+    private static ItemRequestDto getItemRequestDto(CategoryResponseDto category) {
+        ItemRequestDto itemDto = new ItemRequestDto("t-shirts", 10, 10000L, category.getId());
         return itemDto;
     }
 
-    private static Category getCategory() {
-        Category category = Category.createCategory("clothes");
-        return category;
+    private static CategoryRequestDto getCategoryRequestDto(String name) {
+        CategoryRequestDto categoryRequestDto = new CategoryRequestDto(name);
+        return categoryRequestDto;
     }
 }

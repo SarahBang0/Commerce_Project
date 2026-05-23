@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import project.commercePJT.domain.Address;
 import project.commercePJT.domain.User;
-import project.commercePJT.domain.item.Item;
 
 import java.time.format.DateTimeFormatter;
 
@@ -51,7 +50,7 @@ public class UserDto {
 
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class UserResponseDto {
+    public static class UserDetailResponseDto {
 
         private Long userId;
         private String name;
@@ -59,12 +58,25 @@ public class UserDto {
         private String joinedDate;
         private Address address;
 
-        public UserResponseDto(User user) {
+        public UserDetailResponseDto(User user) {
             this.userId = user.getId();
             this.name = user.getName();
             this.email = user.getEmail();
             this.joinedDate = user.getJoined_date().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             this.address = user.getAddress();
+        }
+    }
+
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class UserListResponseDto {
+
+        private String name;
+        private String email;
+
+        public UserListResponseDto(User user) {
+            this.name = user.getName();
+            this.email = user.getEmail();
         }
     }
 

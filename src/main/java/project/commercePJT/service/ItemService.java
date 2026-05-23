@@ -13,6 +13,8 @@ import project.commercePJT.repository.ItemRepository;
 
 import java.util.List;
 
+import static project.commercePJT.dto.ItemDto.*;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -23,8 +25,8 @@ public class ItemService {
 
     // 상품 등록
     @Transactional
-    public Long saveItem(ItemDto dto) {
-        Category category = validateCategoryExists(dto);
+    public Long saveItem(ItemRequestDto dto) {
+        Category category = validateCategoryExists(dto.getCategoryId());
         Item item = Item.createItem(dto.getName(), dto.getQuantity(), dto.getPrice(), category);
         Item savedItem = itemRepository.save(item);
         return savedItem.getId();
@@ -32,9 +34,9 @@ public class ItemService {
 
     // 상품 수정
     @Transactional
-    public void updateItem(Long itemId, ItemDto dto) {
+    public void updateItem(Long itemId, ItemRequestDto dto) {
         Item item = validateItemExists(itemId);
-        Category category = validateCategoryExists(dto);
+        Category category = validateCategoryExists(dto.getCategoryId());
         item.changeItem(dto.getName(), dto.getQuantity(), dto.getPrice(), category);
     }
 
@@ -46,22 +48,30 @@ public class ItemService {
     }
 
     // 상품 목록 조회
-    public List<ItemDto> findItems() {
+    public List<ItemResponseDto> findItems() {
         return itemRepository.findAll().stream()
-                .map(ItemDto::new)
+                .map(ItemResponseDto::new)
                 .toList();
     }
 
     //상품 상세 조회
-    public ItemDto findItem(Long itemId) {
+    public ItemResponseDto findItem(Long itemId) {
         Item item = validateItemExists(itemId);
-        return new ItemDto(item);
+        return new ItemResponseDto(item);
+    }
+
+    // 카테고리별 상품 조회
+    public List<ItemResponseDto> findItemsByCategory(Long categoryId) {
+        Category category = validateCategoryExists(categoryId);
+        return itemRepository.findByCategoryId(categoryId).stream()
+                .map(ItemResponseDto::new)
+                .toList();
     }
 
 
-    private Category validateCategoryExists(ItemDto dto) {
-        Category category = categoryRepository.findById(dto.getCategoryId()).orElseThrow(
-                ()-> new ResourceNotFoundException(dto.getCategoryId(), ErrorCode.CATEGORY_NOT_FOUND)
+    private Category validateCategoryExists(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId).orElseThrow(
+                ()-> new ResourceNotFoundException(categoryId, ErrorCode.CATEGORY_NOT_FOUND)
         );
         return category;
     }

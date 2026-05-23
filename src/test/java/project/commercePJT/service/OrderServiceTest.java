@@ -1,25 +1,21 @@
 package project.commercePJT.service;
 
 import jakarta.persistence.EntityManager;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import project.commercePJT.domain.Address;
-import project.commercePJT.domain.Order;
-import project.commercePJT.domain.OrderItem;
 import project.commercePJT.domain.OrderStatus;
 import project.commercePJT.domain.item.Category;
-import project.commercePJT.domain.item.Item;
+import project.commercePJT.dto.CategoryDto;
 import project.commercePJT.dto.ItemDto;
-import project.commercePJT.dto.OrderDto;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static project.commercePJT.dto.ItemDto.*;
 import static project.commercePJT.dto.OrderDto.*;
 import static project.commercePJT.dto.UserDto.*;
 
@@ -41,11 +37,12 @@ class OrderServiceTest {
         //given
         Long userId = userService.joinUser(getUserJoinRequestDto());
 
-        Long categoryId = categoryService.createCategory(getCategory());
-        Category category = categoryService.findCategory(categoryId);
+        CategoryDto.CategoryRequestDto categoryRequestDto1 = getCategoryRequestDto("clothes");
+        Long categoryId = categoryService.createCategory(categoryRequestDto1);
+        CategoryDto.CategoryResponseDto category = categoryService.findCategory(categoryId);
 
-        ItemDto itemDto1 = new ItemDto("t-shirts", 20, 10000L, category.getId());
-        ItemDto itemDto2 = new ItemDto("pants", 10, 15000L, category.getId());
+        ItemRequestDto itemDto1 = new ItemRequestDto("t-shirts", 20, 10000L, category.getId());
+        ItemRequestDto itemDto2 = new ItemRequestDto("pants", 10, 15000L, category.getId());
         Long itemId1 = itemService.saveItem(itemDto1);
         Long itemId2 = itemService.saveItem(itemDto2);
 
@@ -76,10 +73,11 @@ class OrderServiceTest {
         //given
         Long userId = userService.joinUser(getUserJoinRequestDto());
 
-        Long categoryId = categoryService.createCategory(getCategory());
-        Category category = categoryService.findCategory(categoryId);
+        CategoryDto.CategoryRequestDto categoryRequestDto1 = getCategoryRequestDto("clothes");
+        Long categoryId = categoryService.createCategory(categoryRequestDto1);
+        CategoryDto.CategoryResponseDto category = categoryService.findCategory(categoryId);
 
-        ItemDto itemDto1 = new ItemDto("t-shirts", 20, 10000L, category.getId());
+        ItemRequestDto itemDto1 = new ItemRequestDto("t-shirts", 20, 10000L, category.getId());
         Long itemId1 = itemService.saveItem(itemDto1);
 
         //when
@@ -98,11 +96,12 @@ class OrderServiceTest {
         //given
         Long userId = userService.joinUser(getUserJoinRequestDto());
 
-        Long categoryId = categoryService.createCategory(getCategory());
-        Category category = categoryService.findCategory(categoryId);
+        CategoryDto.CategoryRequestDto categoryRequestDto1 = getCategoryRequestDto("clothes");
+        Long categoryId = categoryService.createCategory(categoryRequestDto1);
+        CategoryDto.CategoryResponseDto category = categoryService.findCategory(categoryId);
 
-        ItemDto itemDto1 = new ItemDto("t-shirts", 20, 10000L, category.getId());
-        ItemDto itemDto2 = new ItemDto("pants", 10, 15000L, category.getId());
+        ItemRequestDto itemDto1 = new ItemRequestDto("t-shirts", 20, 10000L, category.getId());
+        ItemRequestDto itemDto2 = new ItemRequestDto("pants", 10, 15000L, category.getId());
         Long itemId1 = itemService.saveItem(itemDto1);
         Long itemId2 = itemService.saveItem(itemDto2);
 
@@ -128,10 +127,10 @@ class OrderServiceTest {
     }
 
 
-    private Category getCategory() {
-        Category category = Category.createCategory("clothes");
-        Long categoryId = categoryService.createCategory(category);
-        return category;
+
+    private static CategoryDto.CategoryRequestDto getCategoryRequestDto(String name) {
+        CategoryDto.CategoryRequestDto categoryRequestDto = new CategoryDto.CategoryRequestDto(name);
+        return categoryRequestDto;
     }
 
     private static UserJoinRequestDto getUserJoinRequestDto() {

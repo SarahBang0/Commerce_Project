@@ -26,7 +26,7 @@ class UserServiceTest {
         //when
         Long userId = userService.joinUser(userJoinRequestDto);
         //then
-        UserResponseDto findUser = userService.findUser(userId);
+        UserDetailResponseDto findUser = userService.findUser(userId);
         assertThat(findUser.getName()).isEqualTo(userJoinRequestDto.getName());
 
     }
@@ -59,7 +59,7 @@ class UserServiceTest {
         em.clear();
 
         //then
-        UserResponseDto findUser = userService.findUser(userId);
+        UserDetailResponseDto findUser = userService.findUser(userId);
         assertThat(findUser.getName()).isEqualTo("new Spring");
     }
 

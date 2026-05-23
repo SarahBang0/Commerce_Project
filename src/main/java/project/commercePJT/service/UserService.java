@@ -5,13 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.commercePJT.domain.User;
-import project.commercePJT.dto.UserDto;
 import project.commercePJT.exception.ErrorCode;
 import project.commercePJT.exception.ResourceNotFoundException;
 import project.commercePJT.repository.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 import static project.commercePJT.dto.UserDto.*;
 
@@ -39,16 +37,16 @@ public class UserService {
     }
 
     // 회원 목록 조회
-    public List<UserResponseDto> findUsers() {
+    public List<UserListResponseDto> findUsers() {
         return userRepository.findAll().stream()
-                .map(UserResponseDto::new)
+                .map(UserListResponseDto::new)
                 .toList();
     }
 
     // 회원 상세 조회
-    public UserResponseDto findUser(Long userId) {
+    public UserDetailResponseDto findUser(Long userId) {
         User findUser = validateUserExists(userId);
-        return new UserResponseDto(findUser);
+        return new UserDetailResponseDto(findUser);
     }
 
     // 중복 회원 검증 로직

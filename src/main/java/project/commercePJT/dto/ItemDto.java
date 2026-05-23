@@ -8,27 +8,46 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import project.commercePJT.domain.item.Item;
 
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+
 public class ItemDto {
 
-    @NotBlank(message = "품명은 필수 입력값입니다.")
-    private String name;
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor
+    public static class ItemRequestDto {
 
-    @NotNull(message = "재고 수량은 필수 입력값입니다.")
-    private int quantity;
+        @NotBlank(message = "품명은 필수 입력값입니다.")
+        private String name;
 
-    @NotNull(message = "가격은 필수 입력값입니다.")
-    private Long price;
+        @NotNull(message = "재고 수량은 필수 입력값입니다.")
+        private int quantity;
 
-    private Long categoryId;
+        @NotNull(message = "가격은 필수 입력값입니다.")
+        private Long price;
 
-    public ItemDto(Item item) {
-        this.name = item.getName();
-        this.quantity = item.getStockQuantity();
-        this.price = item.getPrice();
-        this.categoryId = item.getCategory().getId();
+        private Long categoryId;
     }
+
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor
+    public static class ItemResponseDto {
+
+        private Long id;
+        private String name;
+        private int quantity;
+        private Long price;
+        private Long categoryId;
+
+        public ItemResponseDto(Item item) {
+            this.id = item.getId();
+            this.name = item.getName();
+            this.quantity = item.getStockQuantity();
+            this.price = item.getPrice();
+            this.categoryId = item.getCategory().getId();
+        }
+
+    }
+
 
 }
