@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.commercePJT.domain.User;
 import project.commercePJT.dto.UserDto;
+import project.commercePJT.exception.ErrorCode;
+import project.commercePJT.exception.ResourceNotFoundException;
 import project.commercePJT.repository.UserRepository;
 
 import java.util.List;
@@ -32,8 +34,7 @@ public class UserService {
     // 회원 정보 수정
     @Transactional
     public void updateUser(Long userId, UserUpdateRequestDto dto) {
-        User findUser = userRepository.findById(userId)
-                .orElseThrow(()-> new IllegalStateException("해당 회원이 존재하지 않습니다. Id=" + userId));
+        User findUser = validateUserExists(userId);
         findUser.changeProfile(dto.getName(),dto.getAddress());
     }
 
@@ -46,14 +47,21 @@ public class UserService {
 
     // 회원 상세 조회
     public UserResponseDto findUser(Long userId) {
-        User findUser = userRepository.findById(userId).orElseThrow(
-                ()-> new IllegalStateException("해당 회원이 존재하지 않습니다. Id="+ userId));
+        User findUser = validateUserExists(userId);
         return new UserResponseDto(findUser);
     }
 
+    // 중복 회원 검증 로직
     private void validateDuplicateUser(String email) {
         if(userRepository.existsByEmail(email)) {
             throw new IllegalStateException("이미 존재하는 이메일 입니다.");
         }
+    }
+
+    // 회원 존재 여부 검증 로직
+    private User validateUserExists(Long userId) {
+        User findUser = userRepository.findById(userId)
+                .orElseThrow(()-> new ResourceNotFoundException(userId, ErrorCode.USER_NOT_FOUND));
+        return findUser;
     }
 }

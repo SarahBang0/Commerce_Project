@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.commercePJT.domain.item.Category;
+import project.commercePJT.exception.ErrorCode;
+import project.commercePJT.exception.ResourceNotFoundException;
 import project.commercePJT.repository.CategoryRepository;
 
 @Service
@@ -23,6 +25,6 @@ public class CategoryService {
     // 카테고리 조회
     public Category findCategory(Long categoryId) {
         return categoryRepository.findById(categoryId).orElseThrow(
-                ()-> new IllegalStateException("해당 카테고리가 존재하지 않습니다 Id="+categoryId));
+                ()-> new ResourceNotFoundException(categoryId, ErrorCode.CATEGORY_NOT_FOUND));
     }
 }
