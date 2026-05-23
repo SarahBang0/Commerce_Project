@@ -28,21 +28,29 @@ public class Item {
 
 
     //==생성 메서드==//
-    public static Item createItem(String name, int stock_quantity, long price, Category category) {
+    public static Item createItem(String name, int stockQuantity, long price, Category category) {
         Item item = new Item();
         item.name = name;
-        item.stockQuantity = stock_quantity;
+        item.stockQuantity = stockQuantity;
         item.price = price;
         item.setCategory(category);
         return item;
     }
 
     //==변경 메서드==//
-    public void changeItem(String name, int stock_quantity, long price, Category category) {
-        this.name = name;
-        this.stockQuantity = stock_quantity;
-        this.price = price;
-        this.category = category;
+    public void changeItem(String name, int stockQuantity, long price, Category category) {
+        if(name != null) {
+            this.name = name;
+        }
+         if(stockQuantity != -1) {
+             this.stockQuantity = stockQuantity;
+         }
+         if(price != -1) {
+             this.price = price;
+         }
+         if(category != null) {
+             this.category = category;
+         }
     }
 
 

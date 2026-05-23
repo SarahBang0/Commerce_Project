@@ -32,8 +32,7 @@ public class UserApiController {
     // 회원 가입
     @PostMapping
     public Long join(@RequestBody UserJoinRequestDto dto) {
-        Long userId = userService.joinUser(dto);
-        return userId;
+        return userService.joinUser(dto);
     }
 
     // 회원 정보 수정

@@ -29,4 +29,11 @@ public class Category {
         category.name = name;
         return category;
     }
+
+    //==변경 메서드==/
+    public void updateCategory(String name) {
+        if(name != null) {
+            this.name = name;
+        }
+    }
 }

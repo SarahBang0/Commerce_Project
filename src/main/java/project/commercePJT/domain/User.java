@@ -47,9 +47,11 @@ public class User {
 
     //==수정 메서드==//
     public void changeProfile(String name, Address address) {
-        this.name = name;
-        this.address = address;
+        if(name != null) {
+            this.name = name;
+        }
+        if(address != null) {
+            this.address = address;
+        }
     }
-
-
 }

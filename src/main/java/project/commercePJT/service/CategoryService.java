@@ -10,6 +10,7 @@ import project.commercePJT.exception.ResourceNotFoundException;
 import project.commercePJT.repository.CategoryRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static project.commercePJT.dto.CategoryDto.*;
 
@@ -25,6 +26,13 @@ public class CategoryService {
     public Long createCategory(CategoryRequestDto dto) {
         Category category = Category.createCategory(dto.getName());
         return categoryRepository.save(category).getId();
+    }
+
+    // 카테고리 수정
+    @Transactional
+    public void updateCategory(Long categoryId, CategoryRequestDto dto) {
+        Category category = validateCategoryExists(categoryId);
+        category.updateCategory(dto.getName());
     }
 
     // 카테고리 조회

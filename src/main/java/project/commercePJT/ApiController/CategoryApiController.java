@@ -24,9 +24,17 @@ public class CategoryApiController {
         return categoryService.createCategory(dto);
     }
 
+    // 카테고리 전체 조회
     @GetMapping
     public List<CategoryResponseDto> categories() {
         return categoryService.findCategories();
+    }
+
+    // 카테고리 수정
+    @PostMapping("/{categoryId}")
+    public CategoryResponseDto updateCategory(@PathVariable Long categoryId, @RequestBody CategoryRequestDto dto) {
+        categoryService.updateCategory(categoryId, dto);
+        return categoryService.findCategory(categoryId);
     }
 
 }

@@ -63,6 +63,7 @@ public class Order {
         orderItem.setOrder(this);
     }
 
+    //==취소 메서드==//
     public void cancel() {
         if(orderStatus == OrderStatus.DELIVERED) {
             throw new IllegalStateException("이미 배송완료 된 상품은 취소가 불가능합니다.");

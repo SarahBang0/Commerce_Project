@@ -47,4 +47,10 @@ public class ItemApiController {
         itemService.updateItem(itemId, dto);
         return itemService.findItem(itemId);
     }
+
+    // 상품 삭제
+    @DeleteMapping("/{itemId}/remove")
+    public void removeItem(@PathVariable Long itemId) {
+        itemService.removeItem(itemId);
+    }
 }
