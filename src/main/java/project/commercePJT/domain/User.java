@@ -33,6 +33,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
 
+    private Long totalOrderPrice;
+
     //==생성 메서드==//
     public static User createUser(String name, String email,String password, Address address) {
         User user = new User();
@@ -42,6 +44,7 @@ public class User {
         user.level = Level.BRONZE;
         user.joined_date = LocalDateTime.now();
         user.address = address;
+        user.totalOrderPrice = 0L;
         return user;
     }
 
@@ -50,8 +53,27 @@ public class User {
         if(name != null) {
             this.name = name;
         }
-        if(address != null) {
-            this.address = address;
+        if(address.getCity()!= null) {
+            this.address.getCity() = address.getCity();
+        }
+    }
+
+    public void addTotalOrderPrice(Long price) {
+        this.totalOrderPrice += price;
+        updateGrade();
+    }
+
+    public void removeTotalOrderPrice(Long price) {
+        this.totalOrderPrice -= price;
+        updateGrade();
+    }
+
+    //==등급 업데이트 로직==//
+    private void updateGrade() {
+        if(this.totalOrderPrice >= 150000) {
+            this.level = Level.GOLD;
+        } else if(this.totalOrderPrice >= 70000) {
+            this.level = Level.SLIVER;
         }
     }
 }

@@ -62,4 +62,5 @@ public class UserService {
                 .orElseThrow(()-> new ResourceNotFoundException(userId, ErrorCode.USER_NOT_FOUND));
         return findUser;
     }
+
 }

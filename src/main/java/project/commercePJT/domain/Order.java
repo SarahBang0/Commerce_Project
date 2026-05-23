@@ -45,6 +45,8 @@ public class Order {
             total += orderItem.getPrice() * orderItem.getQuantity();
         }
 
+        user.addTotalOrderPrice(total);
+
         order.totalPrice = total;
         order.order_date = LocalDateTime.now();
         order.orderStatus = OrderStatus.PAID;
@@ -73,6 +75,8 @@ public class Order {
         for(OrderItem orderItem : orderItems) {
             orderItem.cancel();
         }
+
+        this.getUser().removeTotalOrderPrice(this.totalPrice);
     }
 
     private void setTotalPrice(OrderItem orderItem) {

@@ -41,6 +41,7 @@ public class OrderService {
         }
 
         Order order = Order.createOrder(findUser, orderItemList);
+
         Order savedOrder = orderRepository.save(order);
         return savedOrder.getId();
     }
@@ -62,7 +63,7 @@ public class OrderService {
     // 회원별 주문 목록 조회
     public List<OrderResponseDto> findOrdersByUserId(Long userId) {
         validateUserExists(userId);
-        return orderRepository.findByUserId(userId).stream()
+        return orderRepository.findAllWithUserItem(userId).stream()
                 .map(OrderResponseDto::new)
                 .toList();
     }
