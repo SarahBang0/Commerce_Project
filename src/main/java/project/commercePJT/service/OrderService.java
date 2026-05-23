@@ -7,9 +7,7 @@ import project.commercePJT.domain.Order;
 import project.commercePJT.domain.OrderItem;
 import project.commercePJT.domain.User;
 import project.commercePJT.domain.item.Item;
-import project.commercePJT.dto.OrderDto;
 import project.commercePJT.repository.ItemRepository;
-import project.commercePJT.repository.OrderItemRepository;
 import project.commercePJT.repository.OrderRepository;
 import project.commercePJT.repository.UserRepository;
 

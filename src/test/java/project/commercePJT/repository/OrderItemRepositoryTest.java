@@ -11,8 +11,6 @@ import project.commercePJT.domain.item.Item;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 @Transactional
 class OrderItemRepositoryTest {
@@ -37,7 +35,7 @@ class OrderItemRepositoryTest {
 
         //then
         Optional<OrderItem> findOrderItem = orderItemRepository.findById(orderItem.getId());
-        Assertions.assertThat(item.getStock_quantity()).isEqualTo(7);
+        Assertions.assertThat(item.getStockQuantity()).isEqualTo(7);
     }
 
     @Test
@@ -57,7 +55,7 @@ class OrderItemRepositoryTest {
 
         //then
         Optional<OrderItem> findOrderItem = orderItemRepository.findById(orderItem.getId());
-        Assertions.assertThat(item.getStock_quantity()).isEqualTo(10);
+        Assertions.assertThat(item.getStockQuantity()).isEqualTo(10);
     }
 
     private static Item getItem(Category category) {

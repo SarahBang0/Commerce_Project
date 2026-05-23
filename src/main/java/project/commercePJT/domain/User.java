@@ -1,9 +1,7 @@
 package project.commercePJT.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -52,5 +50,6 @@ public class User {
         this.name = name;
         this.address = address;
     }
+
 
 }

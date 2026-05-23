@@ -17,6 +17,7 @@ import java.util.List;
 public class OrderDto {
 
     @Getter
+    @AllArgsConstructor
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class OrderRequestDto {
         private Long userId;
@@ -24,6 +25,7 @@ public class OrderDto {
     }
 
     @Getter
+    @AllArgsConstructor
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class OrderItemRequestDto {
         private Long itemId;

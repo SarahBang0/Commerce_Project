@@ -1,14 +1,11 @@
 package project.commercePJT.service;
 
 import jakarta.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import project.commercePJT.domain.Address;
-import project.commercePJT.dto.UserDto;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;

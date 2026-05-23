@@ -4,10 +4,6 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import project.commercePJT.domain.OrderItem;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity (name = "ITEMS")
 @Getter
@@ -21,7 +17,7 @@ public class Item {
     @Column(name = "item_name")
     private String name;
 
-    private int stock_quantity;
+    private int stockQuantity;
 
     @Column(name = "item_price")
     private Long price;
@@ -35,7 +31,7 @@ public class Item {
     public static Item createItem(String name, int stock_quantity, long price, Category category) {
         Item item = new Item();
         item.name = name;
-        item.stock_quantity = stock_quantity;
+        item.stockQuantity = stock_quantity;
         item.price = price;
         item.setCategory(category);
         return item;
@@ -44,7 +40,7 @@ public class Item {
     //==변경 메서드==//
     public void changeItem(String name, int stock_quantity, long price, Category category) {
         this.name = name;
-        this.stock_quantity = stock_quantity;
+        this.stockQuantity = stock_quantity;
         this.price = price;
         this.category = category;
     }
@@ -63,16 +59,16 @@ public class Item {
 
     //==재고 관리 메서드==//
     public void removeStock(int quantity) {
-        int restStock = stock_quantity - quantity;
+        int restStock = stockQuantity - quantity;
         if(restStock < 0) {
             throw new IllegalStateException("재고 부족");
         }
-        this.stock_quantity = restStock;
+        this.stockQuantity = restStock;
     }
 
     public void addStock(int quantity) {
         if(quantity >= 0) {
-            stock_quantity += quantity;
+            stockQuantity += quantity;
         } else {
             throw new IllegalStateException("수량 오류");
         }

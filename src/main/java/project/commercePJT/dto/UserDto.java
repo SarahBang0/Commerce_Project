@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import project.commercePJT.domain.Address;
 import project.commercePJT.domain.User;
+import project.commercePJT.domain.item.Item;
 
 import java.time.format.DateTimeFormatter;
 
@@ -33,6 +34,7 @@ public class UserDto {
 
         @NotBlank(message = "주소는 필수 입력값입니다.")
         private Address address;
+
     }
 
     @Getter
@@ -49,7 +51,6 @@ public class UserDto {
 
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor
     public static class UserResponseDto {
 
         private Long userId;
@@ -66,6 +67,5 @@ public class UserDto {
             this.address = user.getAddress();
         }
     }
-
 
 }

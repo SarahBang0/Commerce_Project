@@ -6,7 +6,6 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import project.commercePJT.domain.item.Category;
 import project.commercePJT.domain.item.Item;
 
 @Getter
@@ -23,13 +22,13 @@ public class ItemDto {
     @NotNull(message = "가격은 필수 입력값입니다.")
     private Long price;
 
-    private Category category;
+    private Long categoryId;
 
     public ItemDto(Item item) {
         this.name = item.getName();
-        this.quantity = item.getStock_quantity();
+        this.quantity = item.getStockQuantity();
         this.price = item.getPrice();
-        this.category = item.getCategory();
+        this.categoryId = item.getCategory().getId();
     }
 
 }

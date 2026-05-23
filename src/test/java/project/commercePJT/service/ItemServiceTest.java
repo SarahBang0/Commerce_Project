@@ -34,8 +34,30 @@ class ItemServiceTest {
         assertThat(findItem.getName()).isEqualTo(itemDto.getName());
     }
 
+    @Test
+    void 상품_정보_수정_성공() {
+        //given
+        Long categoryId = categoryService.createCategory(getCategory());
+        Category category = categoryService.findCategory(categoryId);
+        ItemDto itemDto = getItemDto(category);
+        Long itemId = itemService.saveItem(itemDto);
+
+        //when
+        Category newCategory = Category.createCategory("etc");
+        categoryService.createCategory(newCategory);
+        ItemDto newItemDto = new ItemDto("pants", 20, 5000L, newCategory.getId());
+        itemService.updateItem(itemId, newItemDto);
+
+        em.flush();
+        em.clear();
+
+        //then
+        ItemDto findItem = itemService.findItem(itemId);
+        assertThat(findItem.getName()).isEqualTo("pants");
+    }
+
     private static ItemDto getItemDto(Category category) {
-        ItemDto itemDto = new ItemDto("t-shirts", 10, 10000L, category);
+        ItemDto itemDto = new ItemDto("t-shirts", 10, 10000L, category.getId());
         return itemDto;
     }
 
@@ -43,11 +65,4 @@ class ItemServiceTest {
         Category category = Category.createCategory("clothes");
         return category;
     }
-
-    @Test
-    void 상품_정보_수정_성공() {
-
-    }
-
-
 }

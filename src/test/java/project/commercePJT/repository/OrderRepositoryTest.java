@@ -1,6 +1,5 @@
 package project.commercePJT.repository;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,7 +8,6 @@ import project.commercePJT.domain.*;
 import project.commercePJT.domain.item.Category;
 import project.commercePJT.domain.item.Item;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,7 +71,7 @@ class OrderRepositoryTest {
         orderRepository.delete(order);
 
         //then
-        assertThat(item.getStock_quantity()).isEqualTo(10);
+        assertThat(item.getStockQuantity()).isEqualTo(10);
         assertThat(order.getOrderStatus()).isEqualTo(OrderStatus.CANCELLED);
     }
 
