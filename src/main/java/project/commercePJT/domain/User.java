@@ -53,8 +53,8 @@ public class User {
         if(name != null) {
             this.name = name;
         }
-        if(address.getCity()!= null) {
-            this.address.getCity() = address.getCity();
+        if(address != null) {
+            this.address = address;
         }
     }
 
@@ -73,7 +73,7 @@ public class User {
         if(this.totalOrderPrice >= 150000) {
             this.level = Level.GOLD;
         } else if(this.totalOrderPrice >= 70000) {
-            this.level = Level.SLIVER;
+            this.level = Level.SILVER;
         }
     }
 }

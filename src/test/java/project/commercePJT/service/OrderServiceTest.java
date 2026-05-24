@@ -7,9 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import project.commercePJT.domain.Address;
 import project.commercePJT.domain.OrderStatus;
-import project.commercePJT.domain.item.Category;
 import project.commercePJT.dto.CategoryDto;
-import project.commercePJT.dto.ItemDto;
 
 import java.util.List;
 
@@ -60,7 +58,7 @@ class OrderServiceTest {
         assertThat(findOrder.getOrderStatus()).isEqualTo(OrderStatus.PAID);
         assertThat(findOrder.getUserName()).isEqualTo("Spring");
         assertThat(findOrder.getTotalPrice()).isEqualTo(5*10000L + 3*15000L);
-        assertThat(findOrder.getOrderItemResponseDtos().size()).isEqualTo(2);
+        assertThat(findOrder.getOrderItems().size()).isEqualTo(2);
 
         assertThat(itemService.findItem(itemId1).getQuantity()).isEqualTo(15);
         assertThat(itemService.findItem(itemId2).getQuantity()).isEqualTo(7);

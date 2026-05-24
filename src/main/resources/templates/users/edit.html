@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}" />
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom mb-5">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-primary" th:href="@{/}">
+            <i class="bi bi-shop"></i> JIEUN COMMERCE
+        </a>
+        <div class="ms-auto">
+            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="history.back();">취소</button>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-5">
+                    <h3 class="fw-bold mb-4 text-center">회원 정보 수정</h3>
+
+                    <form th:action="@{/users/{id}/edit(id=${user.userId})}" th:object="${user}" method="post">
+                        <input type="hidden" th:field="*{userId}" />
+
+                        <div class="mb-3">
+                            <label th:for="name" class="form-label fw-semibold">이름</label>
+                            <input type="text" th:field="*{name}" class="form-control"
+                                   th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'" placeholder="이름을 입력하세요">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect date</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label th:for="email" class="form-label fw-semibold">이메일</label>
+                            <input type="email" th:field="*{email}" class="form-control" readonly style="background-color: #e9ecef;">
+                            <div class="form-text text-muted small">이메일은 변경할 수 없습니다.</div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <h5 class="fw-bold mb-3"><i class="bi bi-geo-alt"></i> 배송지 수정</h5>
+
+                        <div class="mb-3">
+                            <label th:for="addressName" class="form-label">배송지 이름 (예: 우리집, 회사)</label>
+                            <input type="text" th:field="*{address.name}" class="form-control" placeholder="배송지 이름을 입력하세요">
+                        </div>
+
+                        <div class="mb-3">
+                            <label th:for="city" class="form-label">도시</label>
+                            <input type="text" th:field="*{address.city}" class="form-control" placeholder="도시를 입력하세요">
+                        </div>
+
+                        <div class="mb-3">
+                            <label th:for="street" class="form-label">상세 주소</label>
+                            <input type="text" th:field="*{address.street}" class="form-control" placeholder="상세 주소를 입력하세요">
+                        </div>
+
+                        <div class="mb-4">
+                            <label th:for="zipcode" class="form-label">우편번호</label>
+                            <input type="text" th:field="*{address.zipcode}" class="form-control" placeholder="우편번호를 입력하세요">
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg rounded-pill">수정 완료</button>
+                            <button type="button" class="btn btn-light btn-lg rounded-pill" onclick="history.back();">돌아가기</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="py-5 text-center text-muted">
+    <p>&copy; 2026 Jieun Commerce</p>
+</footer>
+
+</body>
+</html>

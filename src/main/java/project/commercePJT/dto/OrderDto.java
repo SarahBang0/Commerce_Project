@@ -8,7 +8,6 @@ import project.commercePJT.domain.Address;
 import project.commercePJT.domain.Order;
 import project.commercePJT.domain.OrderItem;
 import project.commercePJT.domain.OrderStatus;
-import project.commercePJT.domain.item.Item;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class OrderDto {
         private Address address;
         private String orderDate;
         private OrderStatus orderStatus;
-        private List<OrderItemResponseDto> orderItemResponseDtos = new ArrayList<>();
+        private List<OrderItemResponseDto> orderItems = new ArrayList<>();
         private Long totalPrice;
 
         public OrderResponseDto(Order order) {
@@ -51,7 +50,7 @@ public class OrderDto {
             this.orderStatus = order.getOrderStatus();
             for (OrderItem orderItem : order.getOrderItems()) {
                 OrderItemResponseDto orderItemResponseDto = new OrderItemResponseDto(orderItem);
-                this.orderItemResponseDtos.add(orderItemResponseDto);
+                this.orderItems.add(orderItemResponseDto);
             }
             this.totalPrice = order.getTotalPrice();
         }
