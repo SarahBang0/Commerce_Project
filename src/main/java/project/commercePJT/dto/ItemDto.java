@@ -33,18 +33,20 @@ public class ItemDto {
     @AllArgsConstructor
     public static class ItemResponseDto {
 
-        private Long id;
+        private Long itemId;
         private String name;
         private int quantity;
         private Long price;
         private Long categoryId;
+        private String categoryName;
 
         public ItemResponseDto(Item item) {
-            this.id = item.getId();
+            this.itemId = item.getId();
             this.name = item.getName();
             this.quantity = item.getStockQuantity();
             this.price = item.getPrice();
             this.categoryId = item.getCategory().getId();
+            this.categoryName = item.getCategory().getName();
         }
 
     }
