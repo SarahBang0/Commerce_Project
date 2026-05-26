@@ -20,7 +20,7 @@ import static project.commercePJT.dto.CategoryDto.*;
 @RequiredArgsConstructor
 public class CategoryController {
 
-    @Autowired private final CategoryService categoryService;
+    private final CategoryService categoryService;
 
 
     // 카테고리 생성

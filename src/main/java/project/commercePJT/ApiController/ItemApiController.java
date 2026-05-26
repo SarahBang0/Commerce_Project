@@ -15,7 +15,7 @@ import static project.commercePJT.dto.ItemDto.*;
 @RequiredArgsConstructor
 public class ItemApiController {
 
-    @Autowired private final ItemService itemService;
+    private final ItemService itemService;
 
     // 상품 목록 조회
     @GetMapping

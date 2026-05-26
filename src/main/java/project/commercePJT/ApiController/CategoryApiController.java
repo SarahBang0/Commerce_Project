@@ -16,7 +16,7 @@ import static project.commercePJT.dto.CategoryDto.*;
 @RequiredArgsConstructor
 public class CategoryApiController {
 
-    @Autowired private final CategoryService categoryService;
+    private final CategoryService categoryService;
 
     // 카테고리 등록
     @PostMapping

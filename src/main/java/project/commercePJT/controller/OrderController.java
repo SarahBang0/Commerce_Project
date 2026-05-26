@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import project.commercePJT.dto.ItemDto;
 import project.commercePJT.dto.OrderDto;
+import project.commercePJT.service.CartService;
 import project.commercePJT.service.ItemService;
 import project.commercePJT.service.OrderService;
 
@@ -19,8 +20,9 @@ import static project.commercePJT.dto.OrderDto.*;
 @RequiredArgsConstructor
 public class OrderController {
 
-    @Autowired private final OrderService orderService;
-    @Autowired private final ItemService itemService;
+    private final OrderService orderService;
+    private final ItemService itemService;
+    private final CartService cartService;
 
     // 주문 목록 조회
     @GetMapping
@@ -50,6 +52,21 @@ public class OrderController {
     @PostMapping("/create")
     public String orderCreate(@RequestBody OrderRequestDto dto) {
         orderService.createOrder(dto);
+        return "redirect:/orders";
+    }
+
+    // 장바구니에서 최종 구매 버튼
+    @PostMapping("/cart")
+    public String orderFromCart() {
+        Long mockUserId = 1L;
+        Long orderId = orderService.orderFromCart(mockUserId);
+        return "redirect:/orders";
+    }
+
+    // 주문 취소
+    @PostMapping("/{orderId}/cancel")
+    public String cancelOrder(@PathVariable Long orderId) {
+        orderService.cancelOrder(orderId);
         return "redirect:/orders";
     }
 }

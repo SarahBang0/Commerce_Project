@@ -21,9 +21,7 @@ import static project.commercePJT.dto.ItemDto.*;
 @RequiredArgsConstructor
 public class ItemController {
 
-    @Autowired
     private final ItemService itemService;
-    @Autowired
     private final CategoryService categoryService;
 
     // 상품 등록 폼 이동
@@ -41,6 +39,14 @@ public class ItemController {
         return "redirect:/items";
     }
 
+    // 상품 상세 조회
+    @GetMapping("/{itemId}")
+    public String Item(@PathVariable Long itemId, Model model) {
+        ItemResponseDto item = itemService.findItem(itemId);
+        model.addAttribute("item", item);
+        return "items/detail";
+    }
+
     // 상품 목록 조회
     @GetMapping
     public String Items(Model model, @RequestParam(value = "categoryId", required = false) Long categoryId) {
@@ -54,14 +60,6 @@ public class ItemController {
         model.addAttribute("categories", categories);
         model.addAttribute("items", items);
         return "items/list";
-    }
-
-    // 상품 상세 조회
-    @GetMapping("/{itemId}")
-    public String Item(@PathVariable Long itemId, Model model) {
-        ItemResponseDto item = itemService.findItem(itemId);
-        model.addAttribute("item", item);
-        return "items/detail";
     }
 
 

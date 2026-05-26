@@ -3,9 +3,7 @@ package project.commercePJT.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.commercePJT.domain.Order;
-import project.commercePJT.domain.OrderItem;
-import project.commercePJT.domain.User;
+import project.commercePJT.domain.*;
 import project.commercePJT.domain.item.Item;
 import project.commercePJT.exception.ErrorCode;
 import project.commercePJT.exception.ResourceNotFoundException;
@@ -35,7 +33,7 @@ public class OrderService {
         List<OrderItem> orderItemList = new ArrayList<>();
 
         for(OrderItemRequestDto dto : orderRequestDto.getOrderItemRequestDtoList()) {
-            Item item = validateItemExists(dto);
+            Item item = validateItemExists(dto.getItemId());
             OrderItem orderItem = OrderItem.createOrderItem(dto.getQuantity(), item);
             orderItemList.add(orderItem);
         }
@@ -43,6 +41,28 @@ public class OrderService {
         Order order = Order.createOrder(findUser, orderItemList);
 
         Order savedOrder = orderRepository.save(order);
+        return savedOrder.getId();
+    }
+
+    // 장바구니에서 최종 주문
+    @Transactional
+    public Long orderFromCart(Long userId) {
+        User findUser = validateUserExists(userId);
+        Cart cart = findUser.getCart();
+        List<CartItem> cartItems = cart.getCartItems();
+
+        List<OrderItem> orderItems = new ArrayList<>();
+
+        for(CartItem cartItem : cartItems) {
+            Item item = validateItemExists(cartItem.getItem().getId());
+            OrderItem orderItem = OrderItem.createOrderItem(cartItem.getCount(), item);
+            orderItems.add(orderItem);
+        }
+        Order order = Order.createOrder(findUser, orderItems);
+        Order savedOrder = orderRepository.save(order);
+
+        cart.clearCart();
+
         return savedOrder.getId();
     }
 
@@ -86,9 +106,9 @@ public class OrderService {
 
 
     // 상품 존재 여부 검증 로직
-    private Item validateItemExists(OrderItemRequestDto dto) {
-        Item item = itemRepository.findById(dto.getItemId()).orElseThrow(
-                () -> new ResourceNotFoundException(dto.getItemId(), ErrorCode.ITEM_NOT_FOUND)
+    private Item validateItemExists(Long itemId) {
+        Item item = itemRepository.findById(itemId).orElseThrow(
+                () -> new ResourceNotFoundException(itemId, ErrorCode.ITEM_NOT_FOUND)
         );
         return item;
     }

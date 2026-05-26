@@ -5,76 +5,89 @@
 
 <nav th:replace="~{fragments/navbar :: navbar}"></nav>
 
-
 <div class="container py-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold text-dark">상품 목록</h2>
-
-        <a th:href="@{/categories}" class="btn btn-outline-success rounded-pill me-2">
-            <i class="bi bi-tags"></i> 카테고리 관리
-        </a>
-
-        <a th:href="@{/items/create}" class="btn btn-primary rounded-pill shadow-sm">
-            <i class="bi bi-plus-lg"></i> 상품 등록
-        </a>
-    </div>
-
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <form th:action="@{/items}" method="get" id="filterForm">
-                <select name="categoryId" class="form-select rounded-pill shadow-sm" onchange="this.form.submit()">
-                    <option value="">전체 카테고리</option>
-                    <option th:each="category : ${categories}"
-                            th:value="${category.id}"
-                            th:text="${category.name}"
-                            th:selected="${#strings.equals(param.categoryId, category.id)}">카테고리명</option>
-                </select>
-            </form>
-        </div>
-    </div>
-
     <div class="card border-0 shadow-sm">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0 text-center">
-                <thead class="table-light">
-                <tr>
-                    <th>ID</th>
-                    <th>카테고리</th> <th>상품명</th>
-                    <th>가격</th>
-                    <th>재고</th>
-                    <th>상세/수정</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="item : ${items}">
-                    <td th:text="${item.itemId}">1</td>
-                    <td>
-                        <span class="badge bg-secondary" th:text="${item.categoryName}">카테고리</span>
-                    </td>
-                    <td class="fw-bold" th:text="${item.name}">나이키 운동화</td>
-                    <td th:text="|${#numbers.formatInteger(item.price, 0, 'COMMA')}원|">10,000원</td>
-                    <td>
+        <div class="card-body p-4">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold text-dark mb-0">📦 상품 관리 목록</h2>
+                <div class="btn-group">
+                    <a th:href="@{/categories}" class="btn btn-outline-success rounded-pill me-2">
+                        <i class="bi bi-tags"></i> 카테고리 관리
+                    </a>
+                    <a th:href="@{/items/create}" class="btn btn-primary rounded-pill shadow-sm">
+                        <i class="bi bi-plus-lg"></i> 상품 등록
+                    </a>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <form th:action="@{/items}" method="get" id="filterForm">
+                        <div class="input-group">
+                            <label class="input-group-text bg-light border-0 rounded-start-pill text-muted small">분류</label>
+                            <select name="categoryId" class="form-select border-light bg-light rounded-end-pill shadow-sm" onchange="this.form.submit()">
+                                <option value="">전체 카테고리</option>
+                                <option th:each="category : ${categories}"
+                                        th:value="${category.id}"
+                                        th:text="${category.name}"
+                                        th:selected="${#strings.equals(param.categoryId, category.id)}">카테고리명</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0 text-center">
+                    <thead class="table-light">
+                    <tr>
+                        <th style="width: 8%">ID</th>
+                        <th style="width: 15%">카테고리</th>
+                        <th>상품명</th>
+                        <th style="width: 15%">가격</th>
+                        <th style="width: 12%">재고</th>
+                        <th style="width: 25%">작업</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${items}">
+                        <td th:text="${item.itemId}" class="text-muted small">1</td>
+                        <td>
+                            <span class="badge bg-secondary rounded-pill px-3" th:text="${item.categoryName}">카테고리</span>
+                        </td>
+                        <td class="fw-bold text-dark text-start ps-4" th:text="${item.name}">나이키 운동화</td>
+                        <td class="text-primary fw-bold" th:text="|${#numbers.formatInteger(item.price, 0, 'COMMA')}원|">10,000원</td>
+                        <td>
                             <span th:text="|${item.quantity}개|"
                                   th:classappend="${item.quantity < 10} ? 'text-danger fw-bold' : ''">100개</span>
-                    </td>
-                    <td>
-                        <div class="btn-group">
-                            <a th:href="@{/items/{id}(id=${item.itemId})}" class="btn btn-sm btn-outline-info">상세</a>
-                            <a th:href="@{/items/{id}/edit(id=${item.itemId})}" class="btn btn-sm btn-outline-warning">수정</a>
-                            <td>
-                                <form th:action="@{/cart/add}" method="post" class="d-flex justify-content-center">
+                        </td>
+                        <td>
+                            <div class="d-flex justify-content-center gap-1">
+                                <a th:href="@{/items/{id}(id=${item.itemId})}" class="btn btn-sm btn-outline-info rounded-pill px-2">상세</a>
+                                <a th:href="@{/items/{id}/edit(id=${item.itemId})}" class="btn btn-sm btn-outline-warning rounded-pill px-2">수정</a>
+
+                                <form th:action="@{/carts/add}" method="post" class="d-flex ms-2">
                                     <input type="hidden" name="itemId" th:value="${item.itemId}">
-                                    <input type="number" name="count" value="1" min="1" class="form-control form-control-sm me-1" style="width: 60px;">
-                                    <button type="submit" class="btn btn-sm btn-outline-primary">담기</button>
+                                    <div class="input-group input-group-sm" style="width: 110px;">
+                                        <input type="number" name="count" value="1" min="1" class="form-control border-primary text-center">
+                                        <button type="submit" class="btn btn-primary">담기</button>
+                                    </div>
                                 </form>
-                            </td>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(items)}">
+                        <td colspan="6" class="py-5 text-muted">등록된 상품이 없습니다.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
+
+<nav th:replace="~{fragments/footer :: footer}"></nav>
+
 </body>
 </html>

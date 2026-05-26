@@ -35,7 +35,7 @@ public class User {
 
     private Long totalOrderPrice;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Cart cart;
 
     //==생성 메서드==//
@@ -87,6 +87,8 @@ public class User {
             this.level = Level.GOLD;
         } else if(this.totalOrderPrice >= 70000) {
             this.level = Level.SILVER;
+        } else {
+            this.level = Level.BRONZE;
         }
     }
 }

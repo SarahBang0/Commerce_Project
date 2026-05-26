@@ -13,6 +13,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static project.commercePJT.dto.CategoryDto.*;
 import static project.commercePJT.dto.ItemDto.*;
 import static project.commercePJT.dto.OrderDto.*;
 import static project.commercePJT.dto.UserDto.*;
@@ -35,9 +36,9 @@ class OrderServiceTest {
         //given
         Long userId = userService.joinUser(getUserJoinRequestDto());
 
-        CategoryDto.CategoryRequestDto categoryRequestDto1 = getCategoryRequestDto("clothes");
+        CategoryRequestDto categoryRequestDto1 = getCategoryRequestDto("clothes");
         Long categoryId = categoryService.createCategory(categoryRequestDto1);
-        CategoryDto.CategoryResponseDto category = categoryService.findCategory(categoryId);
+        CategoryResponseDto category = categoryService.findCategory(categoryId);
 
         ItemRequestDto itemDto1 = new ItemRequestDto("t-shirts", 20, 10000L, category.getId());
         ItemRequestDto itemDto2 = new ItemRequestDto("pants", 10, 15000L, category.getId());
@@ -69,12 +70,12 @@ class OrderServiceTest {
     @Test
     void 주문_실패_재고_부족() {
         //given
+        // 1. 회원 생성
         Long userId = userService.joinUser(getUserJoinRequestDto());
-
-        CategoryDto.CategoryRequestDto categoryRequestDto1 = getCategoryRequestDto("clothes");
-        Long categoryId = categoryService.createCategory(categoryRequestDto1);
-        CategoryDto.CategoryResponseDto category = categoryService.findCategory(categoryId);
-
+        // 2. 카테고리 생성
+        Long categoryId = categoryService.createCategory(getCategoryRequestDto("clothes"));
+        CategoryResponseDto category = categoryService.findCategory(categoryId);
+        // 3. 상품 생성
         ItemRequestDto itemDto1 = new ItemRequestDto("t-shirts", 20, 10000L, category.getId());
         Long itemId1 = itemService.saveItem(itemDto1);
 
@@ -94,9 +95,9 @@ class OrderServiceTest {
         //given
         Long userId = userService.joinUser(getUserJoinRequestDto());
 
-        CategoryDto.CategoryRequestDto categoryRequestDto1 = getCategoryRequestDto("clothes");
+        CategoryRequestDto categoryRequestDto1 = getCategoryRequestDto("clothes");
         Long categoryId = categoryService.createCategory(categoryRequestDto1);
-        CategoryDto.CategoryResponseDto category = categoryService.findCategory(categoryId);
+        CategoryResponseDto category = categoryService.findCategory(categoryId);
 
         ItemRequestDto itemDto1 = new ItemRequestDto("t-shirts", 20, 10000L, category.getId());
         ItemRequestDto itemDto2 = new ItemRequestDto("pants", 10, 15000L, category.getId());
@@ -126,8 +127,8 @@ class OrderServiceTest {
 
 
 
-    private static CategoryDto.CategoryRequestDto getCategoryRequestDto(String name) {
-        CategoryDto.CategoryRequestDto categoryRequestDto = new CategoryDto.CategoryRequestDto(name);
+    private static CategoryRequestDto getCategoryRequestDto(String name) {
+        CategoryRequestDto categoryRequestDto = new CategoryRequestDto(name);
         return categoryRequestDto;
     }
 

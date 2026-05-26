@@ -14,7 +14,6 @@ import static project.commercePJT.dto.UserDto.*;
 @RequestMapping("/api/users")
 public class UserApiController {
 
-    @Autowired
     private final UserService userService;
 
     // 회원 상세 조회

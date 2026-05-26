@@ -1,15 +1,12 @@
 package project.commercePJT.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.commercePJT.domain.Cart;
 import project.commercePJT.domain.CartItem;
 import project.commercePJT.domain.User;
 import project.commercePJT.domain.item.Item;
-import project.commercePJT.dto.CartDto;
-import project.commercePJT.dto.OrderDto;
 import project.commercePJT.exception.ErrorCode;
 import project.commercePJT.exception.ResourceNotFoundException;
 import project.commercePJT.repository.CartItemRepository;
@@ -18,6 +15,9 @@ import project.commercePJT.repository.ItemRepository;
 import project.commercePJT.repository.UserRepository;
 
 
+import java.util.List;
+import java.util.Optional;
+
 import static project.commercePJT.dto.CartDto.*;
 
 @Service
@@ -25,10 +25,10 @@ import static project.commercePJT.dto.CartDto.*;
 @RequiredArgsConstructor
 public class CartService {
 
-    @Autowired private final CartRepository cartRepository;
-    @Autowired private final CartItemRepository cartItemRepository;
-    @Autowired private final ItemRepository itemRepository;
-    @Autowired private final UserRepository userRepository;
+    private final CartRepository cartRepository;
+    private final CartItemRepository cartItemRepository;
+    private final ItemRepository itemRepository;
+    private final UserRepository userRepository;
 
     // 장바구니에 상품 담기
     @Transactional
@@ -49,6 +49,23 @@ public class CartService {
             CartItem cartItem = CartItem.createCartItem(cart, item, cartItemRequestDto.getCount());
             cartItemRepository.save(cartItem);
             return cartItem.getId();
+        }
+    }
+
+    // 장바구니 목록 조회
+    public List<CartResponseDto> findCarts() {
+        return cartRepository.findAll().stream()
+                .map(CartResponseDto::new)
+                .toList();
+    }
+
+    // 회원별 장바구니 목록 조회
+    public CartResponseDto findCartByUserId(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if(user == null || user.getCart() == null) {
+            return null;
+        } else {
+            return new CartResponseDto(user.getCart());
         }
     }
 

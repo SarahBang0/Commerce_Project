@@ -44,6 +44,7 @@ public class OrderDto {
         private OrderStatus orderStatus;
         private List<OrderItemResponseDto> orderItems = new ArrayList<>();
         private Long totalPrice;
+        private int totalCount = 0;
 
         public OrderResponseDto(Order order) {
             this.orderId = order.getId();
@@ -59,6 +60,9 @@ public class OrderDto {
                 this.orderItems.add(orderItemResponseDto);
             }
             this.totalPrice = order.getTotalPrice();
+            for (OrderItem orderItem : order.getOrderItems()) {
+                totalCount += orderItem.getQuantity();
+            }
         }
 
     }
@@ -69,11 +73,13 @@ public class OrderDto {
         private String itemName;
         private Long orderPrice;
         private int orderQuantity;
+        private Long totalPrice;
 
         public OrderItemResponseDto(OrderItem orderItem) {
             this.itemName = orderItem.getItem().getName();
             this.orderPrice = orderItem.getPrice();
             this.orderQuantity = orderItem.getQuantity();
+            this.totalPrice = this.orderPrice * this.orderQuantity;
         }
     }
 }

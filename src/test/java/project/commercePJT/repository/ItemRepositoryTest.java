@@ -28,7 +28,7 @@ class ItemRepositoryTest {
         //then
         Item findItem = itemRepository.findByName(item.getName()).get(0);
         Assertions.assertThat(findItem).isEqualTo(item);
-        Assertions.assertThat(itemRepository.findByCategory(category.getId()).get(0)).isEqualTo(findItem);
+        Assertions.assertThat(itemRepository.findByCategoryId(category.getId()).get(0)).isEqualTo(findItem);
     }
 
     private static Item getItem(Category category) {

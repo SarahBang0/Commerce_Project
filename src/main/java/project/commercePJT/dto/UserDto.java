@@ -8,14 +8,14 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import project.commercePJT.domain.Address;
-import project.commercePJT.domain.Level;
-import project.commercePJT.domain.Order;
-import project.commercePJT.domain.User;
+import project.commercePJT.domain.*;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import static project.commercePJT.dto.CartDto.*;
+import static project.commercePJT.dto.OrderDto.*;
 
 
 public class UserDto {
@@ -63,7 +63,8 @@ public class UserDto {
         private String zipcode;
         private Level level;
         private Long totalOrderPrice;
-        private List<OrderDto.OrderResponseDto> orders = new ArrayList<>();
+        private List<OrderResponseDto> orders = new ArrayList<>();
+        private List<CartItemResponseDto> cartItems = new ArrayList<>();
 
         public UserDetailResponseDto(User user) {
             this.userId = user.getId();
@@ -75,7 +76,10 @@ public class UserDto {
             this.level = user.getLevel();
             this.totalOrderPrice = user.getTotalOrderPrice();
             for (Order order : user.getOrders()) {
-                this.orders.add(new OrderDto.OrderResponseDto(order));
+                this.orders.add(new OrderResponseDto(order));
+            }
+            for(CartItem cartItem : user.getCart().getCartItems()) {
+                this.cartItems.add(new CartItemResponseDto(cartItem));
             }
         }
     }

@@ -16,7 +16,7 @@ import static project.commercePJT.dto.OrderDto.*;
 @RequiredArgsConstructor
 public class OrderApiController {
 
-    @Autowired private final OrderService orderService;
+    private final OrderService orderService;
 
     // 주문 생성
     @PostMapping

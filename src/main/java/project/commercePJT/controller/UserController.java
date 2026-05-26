@@ -22,7 +22,6 @@ import static project.commercePJT.dto.UserDto.*;
 @RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
     private final UserService userService;
 
     // 회원 가입 폼 이동

@@ -19,22 +19,28 @@ public class Cart {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> cartItems = new ArrayList<>();
 
 
-    //==생성 메서드==//
+/*    //==생성 메서드==//
     public static Cart createCart(User user) {
         Cart cart = new Cart();
         cart.setUser(user);
         return cart;
-    }
+    }*/
 
+    public void clearCart() {
+        for(CartItem cartItem : cartItems) {
+            cartItem.setCart(null);
+        }
+    }
     public void setUser(User user) {
         this.user = user;
         if (user.getCart() != this) {
             user.setCart(this);
         }
+        this.cartItems.clear();
     }
 
     public Long getTotalPrice() {
