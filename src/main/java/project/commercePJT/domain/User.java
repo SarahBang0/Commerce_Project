@@ -35,6 +35,9 @@ public class User {
 
     private Long totalOrderPrice;
 
+    @OneToOne(mappedBy = "user")
+    private Cart cart;
+
     //==생성 메서드==//
     public static User createUser(String name, String email,String password, Address address) {
         User user = new User();
@@ -45,6 +48,9 @@ public class User {
         user.joined_date = LocalDateTime.now();
         user.address = address;
         user.totalOrderPrice = 0L;
+
+        Cart cart = new Cart();
+        user.setCart(cart);
         return user;
     }
 
@@ -55,6 +61,13 @@ public class User {
         }
         if(address != null) {
             this.address = address;
+        }
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+        if(cart.getUser() != this) {
+            cart.setUser(this);
         }
     }
 
