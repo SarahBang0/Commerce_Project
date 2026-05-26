@@ -5,10 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import project.commercePJT.dto.CategoryDto;
 import project.commercePJT.dto.ItemDto;
 import project.commercePJT.service.CategoryService;
@@ -46,8 +43,15 @@ public class ItemController {
 
     // 상품 목록 조회
     @GetMapping
-    public String Items(Model model) {
-        List<ItemResponseDto> items = itemService.findItems();
+    public String Items(Model model, @RequestParam(value = "categoryId", required = false) Long categoryId) {
+        List<ItemResponseDto> items;
+        if(categoryId != null) {
+            items = itemService.findItemsByCategory(categoryId);
+        } else {
+            items = itemService.findItems();
+        }
+        List<CategoryResponseDto> categories = categoryService.findCategories();
+        model.addAttribute("categories", categories);
         model.addAttribute("items", items);
         return "items/list";
     }
@@ -79,7 +83,11 @@ public class ItemController {
         return "redirect:/items";
     }
 
-    // 카테고리별 상품 조회
 
     // 상품 삭제
+    @DeleteMapping("/{itemId}/remove")
+    public String ItemRemove(@PathVariable Long itemId) {
+        itemService.removeItem(itemId);
+        return "redirect:/items";
+    }
 }

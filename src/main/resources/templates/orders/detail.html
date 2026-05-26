@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}" />
+<body class="bg-light">
+
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+
+<div class="container py-5" style="max-width: 700px;">
+    <div class="card border-0 shadow-sm p-5">
+        <h3 class="fw-bold text-center mb-4">주문 상세 내역</h3>
+        <hr>
+
+        <div class="row mb-3">
+            <div class="col-4 text-muted">주문 번호</div>
+            <div class="col-8 fw-bold" th:text="${order.orderId}">12345</div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-4 text-muted">주문자(이메일)</div>
+            <div class="col-8">
+                <a th:href="@{/users/{id}(id=${order.userId})}"
+                   class="text-decoration-none fw-bold text-primary">
+                    <span th:text="${order.userEmail}">jieun@example.com</span>
+                    <i class="bi bi-box-arrow-in-right small"></i> </a>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-4 text-muted">주문 상품</div>
+            <div class="col-8" th:text="${order.itemName}">상품 이름</div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-4 text-muted">주문 수량</div>
+            <div class="col-8" th:text="|${order.count}개|">1개</div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-4 text-muted">결제 총액</div>
+            <div class="col-8 text-primary fw-bold"
+                 th:text="|${#numbers.formatInteger(order.totalPrice, 0, 'COMMA')}원|">20,000원</div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-4 text-muted">주문 상태</div>
+            <div class="col-8">
+                <span class="badge"
+                      th:classappend="${order.status.name() == 'ORDER'} ? 'bg-primary' : 'bg-danger'"
+                      th:text="${order.status}">ORDER</span>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-4 text-muted">주문 일시</div>
+            <div class="col-8" th:text="${#temporals.format(order.orderDate, 'yyyy-MM-dd HH:mm:ss')}">2026-05-24</div>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="d-grid gap-2">
+            <button class="btn btn-primary btn-lg rounded-pill" th:onclick="|location.href='@{/orders}'|">목록으로</button>
+            <form th:if="${order.status.name() == 'ORDER'}"
+                  th:action="@{/orders/{id}/cancel(id=${order.orderId})}" method="post">
+                <button class="w-100 btn btn-outline-danger btn-lg rounded-pill" type="submit">주문 취소</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

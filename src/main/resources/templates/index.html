@@ -3,18 +3,7 @@
 <head th:replace="~{fragments/header :: header}" />
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
-    <div class="container">
-        <a class="navbar-brand fw-bold text-primary" th:href="@{/}">
-            <i class="bi bi-shop"></i> JIEUN COMMERCE
-        </a>
-        <div class="ms-auto">
-            <a th:href="@{/items/create}" class="btn btn-sm btn-outline-danger me-3">Admin: 상품등록</a>
-            <a th:href="@{/login}" class="btn btn-sm btn-outline-secondary me-2">로그인</a>
-            <a th:href="@{/users/join}" class="btn btn-sm btn-primary">회원가입</a>
-        </div>
-    </div>
-</nav>
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
 
 <div class="bg-white py-5">
     <div class="container py-5 text-center">

@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}" />
+<body class="bg-light">
+
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+
+<div class="container py-5">
+    <div class="mb-4">
+        <h2 class="fw-bold">주문 내역</h2>
+
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0 text-center">
+                <thead class="table-light">
+                <tr>
+                    <th>주문번호</th>
+                    <th>주문자(이메일)</th> <th>상품명</th>
+                    <th>주문가격</th>
+                    <th>수량</th>
+                    <th>상태</th>
+                    <th>일시</th>
+                    <th>상세</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order : ${orders}">
+                    <td th:text="${order.orderId}">1</td>
+                    <td>
+                        <span class="text-muted" th:text="${order.userEmail}">jieun@example.com</span>
+                    </td>
+                    <td class="fw-bold" th:text="${order.itemName}">나이키 운동화</td>
+                    <td th:text="|${#numbers.formatInteger(order.orderPrice, 0, 'COMMA')}원|">10,000원</td>
+                    <td th:text="|${order.count}개|">1개</td>
+                    <td>
+                        <span class="badge"
+                              th:classappend="${order.orderStatus.name() == 'PAID'} ? 'bg-primary' : 'bg-danger'"
+                              th:text="${order.orderStatus}">PAID</span>
+                    </td>
+                    <td th:text="${#temporals.format(order.orderDate, 'yyyy-MM-dd HH:mm')}">2026-05-24</td>
+                    <td>
+                        <a th:href="@{/orders/{id}(id=${order.orderId})}" class="btn btn-sm btn-outline-info">상세보기</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

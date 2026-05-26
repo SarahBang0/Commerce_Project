@@ -3,13 +3,8 @@
 <head th:replace="~{fragments/header :: header}" />
 <body class="bg-light">
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom mb-5">
-    <div class="container">
-        <a class="navbar-brand fw-bold text-primary" th:href="@{/}">
-            <i class="bi bi-shop"></i> JIEUN COMMERCE
-        </a>
-    </div>
-</nav>
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
 
 <div class="container">
     <div class="row justify-content-center">

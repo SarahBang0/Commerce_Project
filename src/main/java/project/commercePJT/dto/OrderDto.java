@@ -35,8 +35,11 @@ public class OrderDto {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class OrderResponseDto {
         private Long orderId;
+        private Long userId;
         private String userName;
+        private String userEmail;
         private Address address;
+        private String itemName;
         private String orderDate;
         private OrderStatus orderStatus;
         private List<OrderItemResponseDto> orderItems = new ArrayList<>();
@@ -44,8 +47,11 @@ public class OrderDto {
 
         public OrderResponseDto(Order order) {
             this.orderId = order.getId();
+            this.userId = order.getUser().getId();
             this.userName = order.getUser().getName();
+            this.userEmail = order.getUser().getEmail();
             this.address = order.getUser().getAddress();
+            this.itemName = order.getOrderItems().get(0).getItem().getName();
             this.orderDate = order.getOrder_date().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             this.orderStatus = order.getOrderStatus();
             for (OrderItem orderItem : order.getOrderItems()) {
