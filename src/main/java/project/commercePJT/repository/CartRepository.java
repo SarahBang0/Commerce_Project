@@ -4,4 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import project.commercePJT.domain.Cart;
 
 public interface CartRepository extends JpaRepository<Cart, Long> {
+
+    Cart findByUserId(Long userId);
+
 }
